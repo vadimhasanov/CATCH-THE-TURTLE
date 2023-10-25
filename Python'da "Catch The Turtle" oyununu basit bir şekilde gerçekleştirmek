@@ -1,0 +1,56 @@
+import turtle
+import random
+
+# Pencereyi oluştur
+win = turtle.Screen()
+win.title("Catch The Turtle")
+win.bgcolor("white")
+win.setup(width=800, height=600)
+
+# Oyuncu turtle'ı oluştur
+player = turtle.Turtle()
+player.shape("square")
+player.color("blue")
+player.shapesize(stretch_wid=1, stretch_len=5)
+player.penup()
+player.goto(0, -250)
+
+# Hedef turtle'ı oluştur
+target = turtle.Turtle()
+target.shape("circle")
+target.color("red")
+target.penup()
+target.speed(0)
+target.goto(random.randint(-380, 380), random.randint(-280, 280))
+
+# Oyuncu turtle'ı hareket ettirme fonksiyonu
+def move_left():
+    x = player.xcor()
+    if x > -350:
+        x -= 20
+    player.setx(x)
+
+def move_right():
+    x = player.xcor()
+    if x < 350:
+        x += 20
+    player.setx(x)
+
+# Tuş kontrolünü ayarla
+win.listen()
+win.onkeypress(move_left, "Left")
+win.onkeypress(move_right, "Right")
+
+# Ana oyun döngüsü
+while True:
+    # Hedef turtle'ı hareket ettir
+    target.setx(target.xcor() + random.randint(-5, 5))
+    target.sety(target.ycor() + random.randint(-5, 5))
+
+    # Oyuncu ve hedef arasındaki mesafeyi kontrol et
+    distance = player.distance(target)
+    if distance < 20:
+        target.goto(random.randint(-380, 380), random.randint(-280, 280))
+
+# Oyun döngüsü sonu
+win.mainloop()
